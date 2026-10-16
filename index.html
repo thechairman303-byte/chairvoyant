@@ -1,1 +1,121 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chairvoyant — Denver leads</title>
+<style>
+  :root { --ink:#102033; --soft:#3d4d61; --paper:#f4f1ea; --card:#fffcf7; --line:#d9d1c3; --brass:#b8860b; --navy:#102033; --hot:#9b2c2c; --hotbg:#f8e6e4; --warm:#8a5a12; --warmbg:#f6ead4; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Georgia, "Source Sans 3", sans-serif; background:var(--paper); color:var(--ink); }
+  header { background:var(--navy); color:var(--paper); }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 20px 16px; }
+  header .wrap { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  h1 { font-size: 32px; margin:0; font-weight: 650; }
+  .tag { margin:6px 0 0; font-family: system-ui, sans-serif; font-size:14px; opacity:.85; }
+  .who { font-family: system-ui, sans-serif; font-size:14px; line-height:1.5; }
+  .who a { color: var(--paper); }
+  .intro, .list { background:var(--card); border:1px solid var(--line); border-radius:12px; }
+  .intro { padding:16px 18px; margin-top:18px; }
+  .intro h2 { margin:0 0 6px; font-size:24px; }
+  .intro p { margin:0; font-family: system-ui, sans-serif; color:var(--soft); line-height:1.5; }
+  .list { margin-top:14px; overflow:hidden; }
+  button.row { width:100%; text-align:left; background:transparent; border:0; border-bottom:1px solid var(--line); padding:14px 16px; font: inherit; color:inherit; cursor:pointer; }
+  button.row:last-child { border-bottom:0; }
+  button.row:hover { background: var(--paper); }
+  .name { font-weight:700; display:block; }
+  .meta { font-family: system-ui, sans-serif; color:var(--soft); font-size:14px; display:block; margin-top:2px; }
+  .score { display:inline-block; margin-top:6px; border-radius:999px; padding:2px 8px; font-family:system-ui,sans-serif; font-size:12px; font-weight:700; }
+  .HOT { background:var(--hotbg); color:var(--hot); }
+  .WARM { background:var(--warmbg); color:var(--warm); }
+  .foot { text-align:center; font-family:system-ui,sans-serif; font-size:12px; color:var(--soft); margin:16px 0 28px; }
+  .mask { display:none; position:fixed; inset:0; background:rgba(16,32,51,.5); padding:16px; }
+  .mask.open { display:flex; align-items:flex-end; justify-content:center; }
+  .card { background:var(--card); width:min(520px, 100%); max-height:90vh; overflow:auto; border-radius:12px; }
+  .card head, .card .top { background:var(--navy); color:var(--paper); padding:16px 18px; display:flex; justify-content:space-between; gap:12px; }
+  .card h3 { margin:0; font-size:26px; }
+  .x { background:transparent; color:var(--paper); border:0; font-size:28px; line-height:1; cursor:pointer; }
+  .body { padding:14px 18px 18px; font-family:system-ui,sans-serif; font-size:14px; line-height:1.45; }
+  .r { display:grid; grid-template-columns: 7rem 1fr; gap:8px; margin:0 0 8px; }
+  .r b { color:var(--soft); }
+  .gold { width:100%; margin-top:8px; background:var(--brass); color:var(--navy); border:0; border-radius:8px; padding:12px; font-weight:700; font-size:16px; cursor:pointer; }
+  .more { display:none; margin-top:10px; background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .more.open { display:block; }
+  @media (min-width: 700px) {
+    .mask.open { align-items:center; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div>
+      <h1>Chairvoyant</h1>
+      <p class="tag">Want to know where the next restaurant is opening? Ask the Chairvoyant.</p>
+    </div>
+    <div class="who">
+      <div>The Chairman</div>
+      <div><a href="tel:3033491436">(303) 349-1436</a></div>
+      <div><a href="mailto:steve@thechairman.com">steve@thechairman.com</a></div>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="intro">
+    <h2>Denver metro sample</h2>
+    <p>Prepared for Sean Kaiser at Standard Restaurant Equipment. Click any restaurant. The gold button is the paid add-on.</p>
+  </section>
+  <section class="list" id="list"></section>
+  <p class="foot">Chairvoyant beta. Confidential. For Standard Restaurant Equipment evaluation.</p>
+</main>
+<div class="mask" id="mask">
+  <div class="card" role="dialog" aria-modal="true">
+    <div class="top">
+      <div>
+        <h3 id="ctitle"></h3>
+        <div id="cmetro" class="tag"></div>
+      </div>
+      <button class="x" id="close" type="button" aria-label="Close">&times;</button>
+    </div>
+    <div class="body" id="cbody"></div>
+  </div>
+</div>
+<script>
+var leads = [
+  ["Holm","Duncan and Allison Holmes, Josh Elson, Craig Lieberman. Paired Hospitality","609 Corona St, Denver, CO 80218","Denver, Congress Park","Opening late October 2026","50 seats","(303) 848-9777 (Beckon / Major Tom)","Via paired.group","Paired Hospitality / Beckon","Paired Hospitality","https://paired.group","American bistro from the Michelin-starred Beckon team. Former Table 6. Seasonal Colorado produce from their Lakewood farm.","Denver Post, Westword","HOT","Group already runs Beckon and Major Tom. Existing vendors are the fastest way in.|Partners: Duncan Holmes, Allison Holmes, Josh Elson, Craig Lieberman.|Interiors: Jenn Mendelson. Fabrication: Jon Strieby."],
+  ["The Acadian","Chef David Simpson","1575 Boulder St, Denver, CO 80211","Denver, LoHi","Buildout underway. Opening date not set","4,900 sq ft","Not public yet","Not public yet","Not confirmed","Not confirmed","—","Cajun restaurant. Second-story bar, rooftop, patio. Former Dimestore Delibar. Chef previously co-founded Treme in Bogota.","WhatNow Denver","WARM","Private chef-owner, not a chain.|Shares the building with The General Store from Littleton.|No public phone yet. Watch the address."],
+  ["Pip Food + Drink","Justin Cucci. Edible Beats","2930 Umatilla St, Denver, CO","Denver, LoHi","Opening fall 2026. Early November target","About 2,000 sq ft. Up to 100 seats","Via existing Edible Beats locations","Via Edible Beats","Edible Beats / El Five","Edible Beats","—","Little sister to El Five, same building, former Sushi Ronin. Group also runs Linger, Root Down, and Vital Root.","Denver Post, Westword","HOT","Corey Ferguson leads the kitchen. Ky Belk leads the bar.|Edible Beats is employee-owned.|Design uses collected objects. Custom seating is part of the concept."],
+  ["Risica","Andrea Frizzi","3463 Walnut St, Denver, CO 80205","Denver, RiNo","Construction complete. Opening soon","About 2,200 sq ft","Not public yet","Not public yet","@risica_denver","Risica Denver","https://risicadenver.com","Milanese pizzeria and wine bar from the former Il Posto chef. Menu items under $20.","Denver Post","HOT","Instagram @risica_denver and risicadenver.com are the live paths.|10-year lease. Architect LIV Studio. Marra Forni oven.|Independent decision maker."],
+  ["El Chingon","Family-owned. Returning after a kitchen fire","3330 Brighton Blvd, Unit 105, The Source Hotel, Denver","Denver, RiNo","Fall 2026 target","About 3,100 sq ft","Not public yet","Not public yet","El Chingon","El Chingon","—","Closed on Santa Fe after a June 2025 fire. 10-year lease at The Source. New patio.","WhatNow Denver","WARM","Family operator, not corporate.|Previous location was 722 Santa Fe Drive.|Confirm whether The Source or the operator buys the equipment."],
+  ["The Henry","Fox Restaurant Concepts","Cherry Creek North, Denver, CO","Denver, Cherry Creek","Opens December 16, 2026","Lobby and retail space. Building has 8,500 sq ft of ground-floor retail","Corporate. Same group as North Italia","Corporate","Fox Restaurant Concepts","Fox Restaurant Concepts","—","Not open yet. Sister bar Hank's Neighborhood Bar is planned for later, with details expected in early 2027.","Denver Gazette, Sept. 21, 2026","HOT","Dated opening, about 60 days out.|Corporate group. Route through Fox openings.|Hank's is a second furniture conversation in the same building."],
+  ["Barcelona Wine Bar (DTC)","Barcelona Wine Bar. Second Colorado location","On The Square, Belleview and Ulster, Denver Tech Center","Denver, DTC","Early 2027","4,000 sq ft indoor plus two 1,000 sq ft patios","Corporate. Existing RiNo location at 2900 Larimer","Corporate","Barcelona Wine Bar","Barcelona Wine Bar","—","Upscale Spanish tapas. Sister concept Corsica Wine Bar opened in Denver in 2024.","Denver Gazette","HOT","Corporate spec. Route through the RiNo manager or national openings.|Two large patios are the furniture opportunity.|Still inside a 90 to 120 day window if the build is active."]
+];
+var labels = ["Owner","Address","Metro","Status","Size","Phone","Email","Instagram","Facebook","Website","Notes","Source"];
+var list = document.getElementById("list");
+leads.forEach(function(L, i) {
+  var b = document.createElement("button");
+  b.className = "row";
+  b.type = "button";
+  b.innerHTML = '<span class="name">' + L[0] + '</span><span class="meta">' + L[1] + '</span><span class="meta">' + L[3] + ' \u00b7 ' + L[4] + '</span><span class="score ' + L[13] + '">' + L[13] + '</span>';
+  b.onclick = function(){ openCard(i); };
+  list.appendChild(b);
+});
+function openCard(i) {
+  var L = leads[i];
+  document.getElementById("ctitle").textContent = L[0];
+  document.getElementById("cmetro").textContent = L[3];
+  var html = "";
+  for (var n = 0; n < labels.length; n++) {
+    html += '<div class="r"><b>' + labels[n] + '</b><span>' + L[n+1] + '</span></div>';
+  }
+  html += '<button class="gold" id="gold" type="button">Dig deeper with AI \u00b7 Premium</button>';
+  html += '<div class="more" id="more"><b>What the paid search adds</b><ul>' + L[14].split("|").map(function(x){ return "<li>"+x+"</li>"; }).join("") + '</ul><p>The base card is included. Dig deeper is the extra monthly add-on.</p></div>';
+  document.getElementById("cbody").innerHTML = html;
+  document.getElementById("gold").onclick = function(){ document.getElementById("more").className = "more open"; };
+  document.getElementById("mask").className = "mask open";
+}
+document.getElementById("close").onclick = function(){ document.getElementById("mask").className = "mask"; };
+document.getElementById("mask").onclick = function(e){ if (e.target.id === "mask") document.getElementById("mask").className = "mask"; };
+</script>
+</body>
+</html>
